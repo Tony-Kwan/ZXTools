@@ -7,3 +7,4 @@
 /GeoIP2-Country.mmdb
 /.idea
 *.iml
+*.sh
