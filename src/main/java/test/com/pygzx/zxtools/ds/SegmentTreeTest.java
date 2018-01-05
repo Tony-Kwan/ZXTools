@@ -64,8 +64,9 @@ public class SegmentTreeTest {
 	public void testMax() {
 		maxTree.update(0, 1, 1);
 		maxTree.update(1, 2, 1);
-//		maxTree.update(2, 3, 1);
+		maxTree.update(2, 3, 1);
+		maxTree.update(0, 3, 10);
 //		assertEquals(Integer.valueOf(2), maxTree.query(0, 1));
-		System.out.println(maxTree.query(1, 1));
+		System.out.println(maxTree.query(0, 3));
 	}
 } 

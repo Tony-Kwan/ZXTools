@@ -9,3 +9,4 @@
 *.iml
 *.sh
 src/test
+src/main/java/test
