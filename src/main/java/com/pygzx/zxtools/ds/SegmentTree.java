@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.BinaryOperator;
 
-public class SegmentTree<T> {
+public class SegmentTree<T extends Number> {
 	private static class Node<T> {
 		int leftBound;
 		int rightBound;
@@ -31,6 +31,7 @@ public class SegmentTree<T> {
 	private int nodeCount = 0;
 
 	public SegmentTree(int len, T initValue, BinaryOperator<T> pushUpOp, BinaryOperator<T> updateLazyTarOp, TeFunction<T, T, Integer, T> pushDownOp) {
+		// Shallow copy
 		this(Collections.nCopies(len, initValue), pushUpOp, updateLazyTarOp, pushDownOp);
 	}
 

@@ -48,13 +48,21 @@ public class AliSmsUtil {
 	public static boolean sendMessage(String name, String phone, Map<String, Object> param, int retry) {
 		boolean ret;
 		do {
-			ret = sendMessage(name, phone, param);
+			ret = sendMessage(name, Collections.singletonList(phone), param);
 		} while (!ret && --retry > 0);
 		return ret;
 	}
 
-	public static boolean sendMessage(String name, String phone, Map<String, Object> param) {
-		if (!dayuMap.containsKey(name)) {
+	public static boolean sendMessage(String name, List<String> phoneList, Map<String, Object> param, int retry) {
+		boolean ret;
+		do {
+			ret = sendMessage(name, phoneList, param);
+		} while (!ret && --retry > 0);
+		return ret;
+	}
+
+	private static boolean sendMessage(String name, List<String> phoneList, Map<String, Object> param) {
+		if (!dayuMap.containsKey(name) || phoneList == null || phoneList.isEmpty()) {
 			return false;
 		}
 
@@ -79,9 +87,11 @@ public class AliSmsUtil {
 			map.put("Action", "SendSms");
 			map.put("Version", "2017-05-25");
 			map.put("RegionId", "cn-hangzhou");
-			map.put("PhoneNumbers", phone);
+			map.put("PhoneNumbers", String.join(",", phoneList));
 			map.put("SignName", signname);
-			map.put("TemplateParam", new JSONObject(param).toString());
+			if (param != null && !param.isEmpty()) {
+				map.put("TemplateParam", new JSONObject(param).toString());
+			}
 			map.put("TemplateCode", template);
 
 			TreeMap<String, String> sortedMap = new TreeMap<>(map);
