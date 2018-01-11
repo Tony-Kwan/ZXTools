@@ -87,7 +87,8 @@ public class AliSmsUtil {
 			map.put("Action", "SendSms");
 			map.put("Version", "2017-05-25");
 			map.put("RegionId", "cn-hangzhou");
-			map.put("PhoneNumbers", String.join(",", phoneList));
+			String pns = String.join(",", phoneList);
+			map.put("PhoneNumbers", pns);
 			map.put("SignName", signname);
 			if (param != null && !param.isEmpty()) {
 				map.put("TemplateParam", new JSONObject(param).toString());
@@ -117,7 +118,7 @@ public class AliSmsUtil {
 				if (CODE_OK.equals(resBody.get("Code"))) {
 					return true;
 				} else {
-					LOGGER.warn(resContent);
+					LOGGER.warn(String.format("SendMessage: phone=%s, error=%s", pns, resContent));
 				}
 			}
 		} catch (Exception e) {
