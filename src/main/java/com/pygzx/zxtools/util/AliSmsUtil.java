@@ -66,6 +66,7 @@ public class AliSmsUtil {
 			return false;
 		}
 
+		String pns = String.join(",", phoneList);
 		try {
 			Map<String, String> config = dayuMap.get(name);
 			String appkey = config.get("appkey");
@@ -87,7 +88,6 @@ public class AliSmsUtil {
 			map.put("Action", "SendSms");
 			map.put("Version", "2017-05-25");
 			map.put("RegionId", "cn-hangzhou");
-			String pns = String.join(",", phoneList);
 			map.put("PhoneNumbers", pns);
 			map.put("SignName", signname);
 			if (param != null && !param.isEmpty()) {
@@ -116,13 +116,16 @@ public class AliSmsUtil {
 				String resContent = EntityUtils.toString(response.getEntity());
 				JSONObject resBody = new JSONObject(resContent);
 				if (CODE_OK.equals(resBody.get("Code"))) {
+					LOGGER.info(String.format("SendMessage: phone=%s (Success)", pns));
 					return true;
 				} else {
 					LOGGER.warn(String.format("SendMessage: phone=%s, error=%s", pns, resContent));
 				}
+			} else {
+				LOGGER.warn(String.format("SendMessage: phone=%s (No response)", pns));
 			}
 		} catch (Exception e) {
-			LOGGER.error(e.getMessage(), e);
+			LOGGER.error(String.format("SendMessage: phone=%s, message=%s", pns, e.getMessage()), e);
 		}
 		return false;
 	}

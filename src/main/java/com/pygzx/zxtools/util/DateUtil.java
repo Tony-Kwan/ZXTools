@@ -73,6 +73,14 @@ public class DateUtil {
 			.format(fmt);
 	}
 
+	public static String date2Str(long ts, int zoneOffsetHour, String pattern) {
+		return Instant.ofEpochMilli(ts)
+			.atZone(ZoneOffset.ofHours(zoneOffsetHour))
+			.toLocalDateTime()
+			.format(DateTimeFormatter.ofPattern(pattern));
+	}
+
+
 	/**
 	 * 获取数个月前的第一天的时间戳
 	 * @return long-某个月第一天开始的时间戳 (eg: 当前时间=2017年03月13日15:56:29, monthsAgo=1, return=1485878400000)
