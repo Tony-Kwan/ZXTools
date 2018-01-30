@@ -56,6 +56,10 @@ public class DateUtil {
 			.format(DateTimeFormatter.ofPattern(pattern));
 	}
 
+	public static String date2Str(long ts, String pattern) {
+		return date2Str(new Date(ts), pattern);
+	}
+
 	public static String date2Str(Date date, DateTimeFormatter fmt) {
 		if (date == null || fmt == null) {
 			return null;

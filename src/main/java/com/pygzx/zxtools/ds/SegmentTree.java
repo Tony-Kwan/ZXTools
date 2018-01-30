@@ -6,6 +6,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.BinaryOperator;
 
+/**
+ * 线段树模板类
+ * @param <T> 节点值类型
+ */
 public class SegmentTree<T extends Number> {
 	private static class Node<T> {
 		int leftBound;
