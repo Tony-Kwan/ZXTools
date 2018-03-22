@@ -2,9 +2,13 @@ package com.pygzx.zxtools.util.geo;
 
 import org.bson.Document;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class PolygonArea extends AbstractGeoPointArea {
+public class PolygonArea extends AbstractGeoPointArea implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
 	private List<GeoPoint> coordinates;
 
 	public PolygonArea(List<GeoPoint> coordinates) {

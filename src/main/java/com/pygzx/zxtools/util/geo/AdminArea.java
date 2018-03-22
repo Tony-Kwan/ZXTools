@@ -3,6 +3,7 @@ package com.pygzx.zxtools.util.geo;
 import org.apache.commons.lang3.tuple.Triple;
 import org.bson.Document;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +11,10 @@ import java.util.Map;
 /**
  * 行政区区域(用省市区的Adcode表示一个行政区域)
  */
-public class AdminArea implements Area<Triple<Integer, Integer, Integer>> {
+public class AdminArea implements Area<Triple<Integer, Integer, Integer>>, Serializable {
+
+	private static final long serialVersionUID = 1L;
+
 	private List<Integer> adcodeList = Collections.emptyList();
 
 	public AdminArea() {

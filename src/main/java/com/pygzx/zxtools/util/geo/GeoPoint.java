@@ -1,6 +1,11 @@
 package com.pygzx.zxtools.util.geo;
 
-public class GeoPoint {
+import java.io.Serializable;
+
+public class GeoPoint implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
 	public static final double INFS = 1e-8;
 
 	private double longitude;

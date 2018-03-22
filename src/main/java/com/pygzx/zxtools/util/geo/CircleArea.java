@@ -3,11 +3,14 @@ package com.pygzx.zxtools.util.geo;
 import com.pygzx.zxtools.util.GeoUtil;
 import org.bson.Document;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CircleArea extends AbstractGeoPointArea {
+public class CircleArea extends AbstractGeoPointArea implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private double longitude;
 	private double latitude;
