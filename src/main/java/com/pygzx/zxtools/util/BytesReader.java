@@ -70,14 +70,14 @@ public class BytesReader {
 	public long readLong() {
 		if (index + 8 > data.length)
 			throw new IndexOutOfBoundsException();
-		long ret = (data[index] & 0xff)
-			| ((data[index + 1] & 0xff) << 8)
-			| ((data[index + 2] & 0xff) << 16)
-			| ((data[index + 3] & 0xff) << 24)
-			| ((data[index + 4] & 0xff) << 32)
-			| ((data[index + 5] & 0xff) << 40)
-			| ((data[index + 6] & 0xff) << 48)
-			| ((data[index + 7] & 0xff) << 56);
+		long ret = ((long) data[index] & 0xff)
+			| ((long) (data[index + 1] & 0xff) << 8)
+			| ((long) (data[index + 2] & 0xff) << 16)
+			| ((long) (data[index + 3] & 0xff) << 24)
+			| ((long) (data[index + 4] & 0xff) << 32)
+			| ((long) (data[index + 5] & 0xff) << 40)
+			| ((long) (data[index + 6] & 0xff) << 48)
+			| ((long) (data[index + 7] & 0xff) << 56);
 		index += 8;
 		return ret;
 	}
@@ -102,42 +102,13 @@ public class BytesReader {
 	public String readString(int length) throws Exception {
 		byte[] bytes = readBytes(length);
 		if (bytes != null) {
-			return new String(subBytes(bytes, 0, strlen(bytes)), Charsets.UTF_8);
+			return new String(BytesUtil.subBytes(bytes, 0, BytesUtil.strlen(bytes)), Charsets.UTF_8);
 		}
 		return null;
 	}
 
 	@Override
 	public String toString() {
-		return byte2hex(data);
-	}
-
-	private static String byte2hex(byte[] bytes) {
-		char[] buf = new char[bytes.length * 3];
-		for ( int i = 0; i < bytes.length; i++ ) {
-			int v = bytes[i] & 0xFF;
-			buf[i * 3] = HEX_ARRAY[v >>> 4];
-			buf[i * 3 + 1] = HEX_ARRAY[v & 0x0F];
-			buf[i * 3 + 2] = ' ';
-		}
-		return new String(buf);
-	}
-
-	public static int strlen(byte[] buf) {
-		if (buf == null)
-			return 0;
-		for (int i = 0; i < buf.length; i++) {
-			if (buf[i] == 0x00)
-				return i;
-		}
-		return buf.length;
-	}
-
-	public static byte[] subBytes(byte[] source, int from, int length) {
-		byte[] result = new byte[length];
-		for (int i = 0; i < length; i++) {
-			result[i] = source[from + i];
-		}
-		return result;
+		return BytesUtil.byte2hex(data);
 	}
 }
