@@ -53,9 +53,10 @@ public class MailUtil {
 			message.setSubject(subject);
 			message.setText(text);
 			Transport.send(message);
+			LOGGER.info(String.format("Send email: to=%s (Success)", to));
 			return true;
 		} catch (Exception e) {
-			LOGGER.error(e.getMessage(), e);
+			LOGGER.error(String.format("Send email: to=%s, message=%s", to, e.getMessage()), e);
 		}
 		return false;
 	}

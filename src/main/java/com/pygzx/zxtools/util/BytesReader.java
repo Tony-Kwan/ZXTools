@@ -18,9 +18,9 @@ public class BytesReader {
 	public void reset() { index = 0; }
 
 	public int skip(int i) {
-		if (i > data.length)
+		if (index + i > data.length)
 			return index;
-		index = i;
+		index += i;
 		return index;
 	}
 

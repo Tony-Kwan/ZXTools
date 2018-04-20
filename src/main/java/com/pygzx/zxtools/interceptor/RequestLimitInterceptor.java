@@ -26,12 +26,12 @@ public class RequestLimitInterceptor implements HandlerInterceptor {
 
 	public RequestLimitInterceptor(String source, StringRedisTemplate redisTemplate) {
 		if (StringUtils.isEmpty(source)) {
-			throw new NullPointerException("source is empty");
+			throw new NullPointerException("Source can not be null");
 		}
 		if (redisTemplate == null) {
-			throw new NullPointerException("redisTemplate is null");
+			throw new NullPointerException("RedisTemplate can not be null");
 		}
-		this.prefix = "request_limit_" + source + "_";
+		this.prefix = source + ":request:limit";
 		this.redisTemplate = redisTemplate;
 	}
 
@@ -46,7 +46,7 @@ public class RequestLimitInterceptor implements HandlerInterceptor {
 
 				String ip = ContextUtil.getIp();
 				String path = request.getRequestURI();
-				String key = this.prefix.concat(ip).concat("_").concat(path);
+				String key = String.join(":", this.prefix, ip, path);
 				long count = redisTemplate.opsForValue().increment(key, 1);
 				if (count == 1) {
 					redisTemplate.expire(key, interval, TimeUnit.SECONDS);

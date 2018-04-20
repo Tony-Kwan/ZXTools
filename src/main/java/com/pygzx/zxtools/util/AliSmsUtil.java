@@ -116,16 +116,16 @@ public class AliSmsUtil {
 				String resContent = EntityUtils.toString(response.getEntity());
 				JSONObject resBody = new JSONObject(resContent);
 				if (CODE_OK.equals(resBody.get("Code"))) {
-					LOGGER.info(String.format("SendMessage: phone=%s (Success)", pns));
+					LOGGER.info(String.format("Send sms: phone=%s (Success)", pns));
 					return true;
 				} else {
-					LOGGER.warn(String.format("SendMessage: phone=%s, error=%s", pns, resContent));
+					LOGGER.warn(String.format("Send sms: phone=%s, error=%s", pns, resContent));
 				}
 			} else {
-				LOGGER.warn(String.format("SendMessage: phone=%s (No response)", pns));
+				LOGGER.warn(String.format("Send sms: phone=%s (No response)", pns));
 			}
 		} catch (Exception e) {
-			LOGGER.error(String.format("SendMessage: phone=%s, message=%s", pns, e.getMessage()), e);
+			LOGGER.error(String.format("Send sms: phone=%s, message=%s", pns, e.getMessage()), e);
 		}
 		return false;
 	}
