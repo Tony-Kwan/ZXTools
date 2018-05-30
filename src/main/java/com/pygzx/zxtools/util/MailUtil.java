@@ -25,10 +25,16 @@ public class MailUtil {
 			String username = config.getProperty(name + ".username");
 			String password = config.getProperty(name + ".password");
 			String host = config.getProperty(name + ".host");
+			String port = config.getProperty(name + ".port");
+			if (StringUtil.isEmpty(port)) {
+				port = "25";
+			}
 			String auth = config.getProperty(name + ".auth");
+
 			Properties p = System.getProperties();
 			p.put("mail.smtp.host", host);
 			p.put("mail.smtp.auth", auth);
+			p.put("mail.smtp.port", port);
 			map.put(name, Triple.of(p, new Authenticator() {
 				@Override
 				protected PasswordAuthentication getPasswordAuthentication() {

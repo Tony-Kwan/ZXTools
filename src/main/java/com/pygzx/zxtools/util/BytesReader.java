@@ -19,7 +19,7 @@ public class BytesReader {
 
 	public int skip(int i) {
 		if (index + i > data.length)
-			return index;
+			throw new IndexOutOfBoundsException();
 		index += i;
 		return index;
 	}
