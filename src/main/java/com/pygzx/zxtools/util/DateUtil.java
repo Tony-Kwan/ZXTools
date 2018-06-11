@@ -1,5 +1,6 @@
 package com.pygzx.zxtools.util;
 
+import com.google.common.collect.ImmutableMap;
 import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,7 +9,8 @@ import org.springframework.util.StringUtils;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
-import java.util.Date;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class DateUtil {
 	private static final Logger LOGGER = LoggerFactory.getLogger(DateUtil.class);
@@ -108,5 +110,17 @@ public class DateUtil {
 
 	public static long nowTs() {
 		return Instant.now().toEpochMilli();
+	}
+
+	public static List<Map<String, Object>> listTimeZone() {
+		LocalDateTime now = LocalDateTime.now();
+		return ZoneId.getAvailableZoneIds().stream()
+			.map(ZoneId::of)
+			.map(id -> ImmutableMap.of(
+				"timeZone", (Object) String.format("(UTC%s) %s", now.atZone(id).getOffset().getId().replace("Z", "+00:00"), id.getId()),
+				"offset", now.atZone(id).getOffset().getTotalSeconds() * 1.0 / 3600.0
+			))
+			.sorted((m1, m2) -> ((String) m1.get("timeZone")).compareTo((String) m2.get("timeZone")))
+			.collect(Collectors.toList());
 	}
 }
