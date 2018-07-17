@@ -102,19 +102,21 @@ public class MyersDiff<T> implements Diff<T> {
 
 	private List<Snake> getSnakeList() {
 		int max = N + M;
-		Map<Integer, Integer> v = new DefaultHashMap<>(Integer.MAX_VALUE); // TODO: 18/7/16 optimize: Use Array
-		v.put(1, 0);
+		int v[] = new int[(max * 2) + 1];
+		Arrays.fill(v, Integer.MAX_VALUE);
+		v[max + 1] = 0;
 		int xStart, yStart, xMid, yMid, xEnd, yEnd;
 		List<Snake> snakeList = new ArrayList<>(max);
 		boolean stop = false;
 		for (int d = 0; d <= max && !stop; d++) {
 			for (int k = -d; k <= d; k += 2) {
-				if (k == -d || (k != d && v.get(k - 1) < v.get(k + 1))) {
-					xStart = v.get(k + 1);
+				int kk = k + max;
+				if (k == -d || (k != d && v[kk - 1] < v[kk + 1])) {
+					xStart = v[kk + 1];
 					yStart = xStart - (k + 1);
 					xMid = xStart;
 				} else {
-					xStart = v.get(k - 1);
+					xStart = v[kk - 1];
 					yStart = xStart - (k - 1);
 					xMid = xStart + 1;
 				}
@@ -129,7 +131,7 @@ public class MyersDiff<T> implements Diff<T> {
 					xEnd++;
 					yEnd++;
 				}
-				v.put(k, xEnd);
+				v[kk] = xEnd;
 				snakeList.add(new Snake(
 					d,
 					new Point(xStart, yStart),
